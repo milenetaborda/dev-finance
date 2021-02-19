@@ -12,19 +12,18 @@ const Modal = {
   }
 }
 
+const Storage = {
+  get() {
+    return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
+  },
+
+  set(transactions) {
+    localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
+  }
+}
+
 const Transaction = {
-  all: [
-    {
-      description: 'BLABLA',
-      amount: 50000,
-      date: '18/02/2021'
-    },
-    {
-      description: 'BLABLA',
-      amount: -20000,
-      date: '18/02/2021'
-    }
-  ],
+  all: Storage.get(),
 
   add(transaction) {
     Transaction.all.push(transaction)
@@ -203,6 +202,8 @@ const App = {
     })
 
     DOM.updateBalance()
+
+    Storage.set(Transaction.all)
   },
 
   reload(){
